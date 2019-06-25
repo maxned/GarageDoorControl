@@ -10,7 +10,7 @@ I am using [Homebridge](https://homebridge.io) with the [GarageCommand](https://
 
 Here is the [circuit](https://crcit.net/c/15f76ae4) that I built for this project.
 
-![](https://github.com/maxned/GarageDoorOpener/circuit.svg)
+![](https://raw.githubusercontent.com/maxned/GarageDoorControl/master/circuit.png)
 
 Using the transistor we can shortly short the 2 wires going into the garage door causing it to either open or close depending on the current position. If the garage door is either opening or closing, toggling it again causes it to stop wherever it is.
 
