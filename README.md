@@ -8,7 +8,9 @@ I also needed a way of knowing whether the door was open or closed.
 
 Here is the [circuit](https://crcit.net/c/15f76ae4) that I built for this project.
 
-![](https://raw.githubusercontent.com/maxned/GarageDoorControl/master/circuit.png =250x)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/maxned/GarageDoorControl/master/circuit.png" width="300" title="Github Logo">
+</p>
 
 Using the transistor we can shortly short the 2 wires going into the garage door causing it to either open or close depending on the current position. If the garage door is either opening or closing, toggling it again causes it to stop wherever it is.
 
