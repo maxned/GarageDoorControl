@@ -18,11 +18,22 @@ The toggle switch is attached to the garage door opener rail so that it was togg
 
 It takes about 12 seconds for my garage door to either open or close completely.
 
+Interrupting the door while it is opening or closing will be ignored and the door will continue opening or closing. This is because the garage door is unpredictable if interrupted in while the door is moving.
+
 # Dependencies
 
 - [Homebridge](https://homebridge.io)
 - [GarageCommand](https://www.npmjs.com/package/homebridge-garagedoor-command) Homebridge plugin
-- [RPyC](https://rpyc.readthedocs.io)
+- [WiringPi](http://wiringpi.com/)
+
+Here are the commands you can use to install everything you will need if you are running Raspbian Lite.
+
+```
+sudo apt install npm
+sudo npm install -g homebridge
+npm install -g homebridge-garagedoor-command
+sudo apt install wiringpi
+```
 
 # Homebridge Config
 
@@ -32,28 +43,18 @@ This is the configuration for the GarageCommand Homebridge plugin/accessory that
 {
     "accessory": "GarageCommand",
     "name": "Garage Door",
-    "open": "~/GarageDoorControl/control.py open",
-    "close": "~/GarageDoorControl/control.py close",
-    "state": "~/GarageDoorControl/control.py state",
+    "open": "~/GarageDoorControl/control.sh open",
+    "close": "~/GarageDoorControl/control.sh close",
+    "state": "~/GarageDoorControl/control.sh state",
     "status_update_delay": 12,
     "poll_state_delay": "5"
 }
 ```
 
-# Files
-
-`garage_control.py`: The main logic of the garage door opening. Outputs the correct keywords for the Homebridge plugin.
-
-`control.py`: Contacts `garage_control.py` using RPyC to either open/close the garage or get the current state.
-
 # Running on Boot
 
-To run `garage_control.py` on boot type in `crontab -e` and add `@reboot /home/pi/GarageDoorControl/garage_control.py`.
-
-Make sure to also enable Homebridge to run on boot as well by following the instructions [here](https://github.com/nfarina/homebridge/wiki/Running-HomeBridge-on-a-Raspberry-Pi#running-homebridge-on-bootup).
-
-# Future Work
-
-I am using the Raspberry Pi Zero W and it is really slow when calling the `control.py` script. It takes a while to start executing a python script as well as import rpyc. An improvement would be to not use Python at all but to just use the shell which would be a lot faster.
-
-Another improvement would be to use a more powerful Raspberry Pi.
+To run Homebridge and correctly setup the GPIO pins on boot type `crontab -e` and add the following lines:
+```
+@reboot /home/pi/GarageDoorControl/control.sh setup
+@reboot /usr/local/bin/homebridge
+```
