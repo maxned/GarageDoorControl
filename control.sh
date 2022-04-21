@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# WiringPi pin 4 is BCM GPIO 23
-# Output for transistor to open/close garage
-OUT_PIN=4
+# WiringPi pin 5 is BCM GPIO 24
+# Output for relay to open/close garage
+OUT_PIN=5
 
 # File that holds the current state of the garage
 STATE_FILE="/home/pi/GarageDoorControl/.state"
@@ -105,3 +105,5 @@ if [[ $1 == "state" ]]; then
     get_state
     echo $STATE
 fi
+
+echo "$(TZ=":America/Los_Angeles" date) $1 State: $STATE distance: $(cat $DISTANCE_FILE)" >> /home/pi/GarageDoorControl/log

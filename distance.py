@@ -7,6 +7,10 @@
 
 import RPi.GPIO as GPIO
 import time
+from datetime import datetime
+import pytz
+
+tz = pytz.timezone('America/Los_Angeles')
 
 GPIO.setmode(GPIO.BCM)
 
@@ -42,8 +46,21 @@ if __name__ == '__main__':
         while True:
             # Write to a .distance file so that other programs can always read the distance
             # Distance is in cm
+            try:
+                with open('/home/pi/GarageDoorControl/.distance', 'r') as f:
+                    read_distance = float(f.readlines()[0])
+            except:
+                read_distance = 0
+
             with open('/home/pi/GarageDoorControl/.distance', 'w') as f:
-              f.write(str(distance()))
+              average_distance = (read_distance + distance()) / 2
+              f.write(str(average_distance))
+
+            now = datetime.now(tz)
+            current_time = now.strftime("%a %-d, %-H:%M:%S:%f")
+            with open('/home/pi/GarageDoorControl/current_time', 'w') as f:
+                f.write(current_time + '\n')
+
             time.sleep(0.5)
 
     except KeyboardInterrupt:
